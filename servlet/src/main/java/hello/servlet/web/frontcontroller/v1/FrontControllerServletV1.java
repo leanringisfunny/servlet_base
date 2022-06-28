@@ -16,12 +16,12 @@ import java.util.Map;
 @WebServlet(name="frontControllerServletV1",urlPatterns="/front-controller/v1/*")
 //v1 하위에 존재하는 파일에 대해서는  무조건 이 컨트롤러가 호추리된다.
 public class FrontControllerServletV1 extends HttpServlet{
-    Map<String, ControllerV1> controllerMap = new HashMap<>();
+    private Map<String, ControllerV1> controllerMap = new HashMap<>();
 
-    public FrontControllerServletV1(Map<String, ControllerV1> controlletMap) {
-        controlletMap.put("/front-controller/v1/membrs/new-form",new MemberFormControllerV1() );
-        controlletMap.put("/front-controller/v1/membrs/save",new MemberSaveControllerV1());
-        controlletMap.put("/front-controller/v1/membrs",new MemberListControllerV1());
+    public FrontControllerServletV1(){
+        controllerMap.put("/front-controller/v1/members/new-form",new MemberFormControllerV1() );
+        controllerMap.put("/front-controller/v1/members/save",new MemberSaveControllerV1());
+        controllerMap.put("/front-controller/v1/members",new MemberListControllerV1());
     }
 
     @Override
