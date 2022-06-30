@@ -28,7 +28,7 @@ public class ControllerV4HandlerAdapter implements MyHandlerAdapter {
         //기존 컨트롤러에서는 string을 반환했었으나 adapter의 역할을 수행하기 위해서(다형성을 통한 일치) modelview를 직접 반환하도록 한다.
         modelView.setModel(model);//모델뷰에 생성자로 논리이름을 세팅함과 동시에 model을 세팅한다.
 
-        return mv;
+        return modelView;
     }
     private Map<String, String> createParamMap(HttpServletRequest request) {
         Map<String, String> paramMap = new HashMap<>();
