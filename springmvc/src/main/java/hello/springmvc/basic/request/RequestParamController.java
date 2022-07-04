@@ -1,11 +1,9 @@
 package hello.springmvc.basic.request;
 
+import hello.springmvc.basic.HelloData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -86,4 +84,25 @@ public class RequestParamController {
         log.info("username={} age={}",paramMap.get("username"),paramMap.get("age"));
         return "ok";
     }
+    //파람으로 받아서 직접 객체를 생성해주는 관정을 ModelAttribute 애노테이션이 알아서 다 처리해줌
+    @ResponseBody
+    @RequestMapping("/model-attribute-v1")
+    public String modelAttributeV1(@ModelAttribute HelloData helloData){
+        /*(@RequestParam String username,@RequestParam int age){
+        HelloData helloData=new HelloData();
+        helloData.setUsername(username);
+        helloData.setAge(age);*/
+        log.info("username={} age={}",helloData.getUsername(),helloData.getAge());
+        log.info("helloData={}",helloData);
+        return "ok";
+    }
+    //애노테이션 생략 가능
+    @ResponseBody
+    @RequestMapping("/model-attribute-v2")
+    public String modelAttributeV2( HelloData helloData){
+        log.info("username={} age={}",helloData.getUsername(),helloData.getAge());
+        log.info("helloData={}",helloData);
+        return "ok";
+    }
+
 }
