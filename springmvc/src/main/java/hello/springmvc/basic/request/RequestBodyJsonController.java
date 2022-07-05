@@ -3,6 +3,7 @@ package hello.springmvc.basic.request;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hello.springmvc.basic.HelloData;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +30,7 @@ public class RequestBodyJsonController {
         log.info("username={} age={}",helloData.getUsername(),helloData.getAge());
         response.getWriter().write("ok");
     }
+    //@RequestBody를 생략하면 ModelAttribute가 호출이 된다
     @ResponseBody
     @PostMapping("request-body-json-v2")
     public String RequestBodyJsonV2(@RequestBody String messageBody) throws IOException {
@@ -44,5 +46,20 @@ public class RequestBodyJsonController {
     public String RequestBodyJsonV3(@RequestBody HelloData helloData) {
         log.info("username={} age={}",helloData.getUsername(),helloData.getAge());
         return "ok";
+    }
+    //제네릭으로 선언이 되어있기 떄문에 겟 바디로 꺼내면 제네릭으로 반환이된다.
+    @ResponseBody
+    @PostMapping("request-body-json-v4")
+    public String RequestBodyJsonV4(HttpEntity<HelloData> data) {
+        HelloData helloData = data.getBody();
+        log.info("username={} age={}",helloData.getUsername(),helloData.getAge());
+        return "ok";
+    }
+    //response body에 제이슨 데이터로 만든 객체를 집어넣을 수 있다. 객체는 제이슨으로 표현된다.
+    @ResponseBody
+    @PostMapping("request-body-json-v5")
+    public HelloData RequestBodyJsonV5(@RequestBody HelloData helloData) {
+        log.info("username={} age={}",helloData.getUsername(),helloData.getAge());
+        return helloData;
     }
 }
