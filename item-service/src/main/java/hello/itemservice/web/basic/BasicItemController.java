@@ -48,7 +48,8 @@ public class BasicItemController
         //ModelAttribute안의 ()에는 따로 지정하지 않는다면 클래스명의 첫 대문자를 소문자로 바꾼  item이라는 key를 생성하며 item객체를 값으로 가지도록해 addAttribute과정을 생략해도 된다.
         Item savedItem = itemRepository.save(item);
         //model.addAttribute("item",item);
-        return"basic/item";
+       // return"basic/item";
+        return "redirect:/basic/items/"+item.getId();
     }
 
     @GetMapping("/{itemId}/edit")
