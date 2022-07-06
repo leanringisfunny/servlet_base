@@ -6,9 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -38,6 +36,19 @@ public class BasicItemController
         Item item = itemRepository.findById(itemId);
         model.addAttribute("item",item);
         return "basic/item";
+    }
+
+    @GetMapping("/add")
+    public String add(){
+        return"basic/addForm";
+    }
+    //requestparam으로 받을 수도 있지만 modelAttribute로 받으면 어뎁터 과정을 거쳐서 객체를 직접 생성해서 매개변수로 넘겨준다.
+    @PostMapping("/add")
+    public String addItem(Model model ,@ModelAttribute("item")Item item){
+        //ModelAttribute안의 ()에는 따로 지정하지 않는다면 클래스명의 첫 대문자를 소문자로 바꾼  item이라는 key를 생성하며 item객체를 값으로 가지도록해 addAttribute과정을 생략해도 된다.
+        Item savedItem = itemRepository.save(item);
+        //model.addAttribute("item",item);
+        return"basic/item";
     }
     /**
      * for test, init initial data
