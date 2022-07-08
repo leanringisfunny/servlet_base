@@ -1,0 +1,11 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<!--공통 프레임이다 프레임을 사용하는 파일은 이 틀안에 있는 원소들 중 변화를 주고 싶은 원소들에 대해 대체문을 쓰고 파라매터로 받아  -->
+<!--대체문을 적용시키고, 그 결과를 이 레이아웃을 호출한 파일로 다시 보내 그 파일에 있는 대체문을 적용해 그 결과를 적용시킨다. -->
+<head th:fragment="common_header(title,links)">
+    <title th:replace="${title}">레이아웃 타이틀</title>
+    <!-- 공통 -->
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/awesomeapp.css}">
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <script type="text/javascript" th:src="@{/sh/scripts/codebase.js}"></script>
+    <!-- 추가 -->
+    <th:block th:replace="${links}" /></head>
