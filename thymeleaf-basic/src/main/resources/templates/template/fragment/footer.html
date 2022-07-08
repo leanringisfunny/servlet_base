@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!--모든 파일에서 똑같은 하단 영역을 사용할 때 fragment로서 다른 타임리프 파일들이 불러다쓰ㅡ는 파일로 둘수 있다.-->
+<!--th:fragment="copy"로서 프레그 먼트에 이름을 부여할 수 있으며 어디선가 이 fragment를 참조 시 이 이름으로 불러온다. -->
+<body><footer th:fragment="copy">
+    푸터 자리 입니다.
+</footer>
+<footer th:fragment="copyParam (param1, param2)">
+    <p>파라미터 자리 입니다.</p>
+    <p th:text="${param1}"></p>
+    <p th:text="${param2}"></p>
+</footer>
+</body>
+</html>
