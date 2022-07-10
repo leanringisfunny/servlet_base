@@ -40,6 +40,7 @@ public class FormItemController {
         model.addAttribute("item",new Item("koko",10,10));//값을 넣면 폼의 value값에 들어감
         return "form/addForm";
     }
+
     //폼에서 포스트로 정보를 넘기면 Model Attribute로 받아 어뎁터를 통해 객체를 생성해준다.
     @PostMapping("/add")
     public String addItem(@ModelAttribute Item item, RedirectAttributes redirectAttributes) {
