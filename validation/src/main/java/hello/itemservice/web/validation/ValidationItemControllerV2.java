@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -135,7 +136,7 @@ public class ValidationItemControllerV2 {
         redirectAttributes.addAttribute("status", true);
         return "redirect:/validation/v2/items/{itemId}";
     }
-
+    //    @PostMapping("/add")
     public String addItemV3(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
         //item with @Data -->toString ㅡㅇㄹ 오버라이드를 하기 떄문에 log.info() 시 object 내의 멤버를(target) 스트링으로 표현해줌
 
@@ -182,11 +183,12 @@ public class ValidationItemControllerV2 {
         log.info("objectName={}",bindingResult.getObjectName());
         log.info("target={}",bindingResult.getTarget());
 
-        //errors.properties 설정시 (에러코드.오브젝트명,필드네임)순서로 지정하기 때문에 에러코드만 알아도 어떤 필드명인지 바로 알 수 있음
-        //messageResolver를 통해서 에러 코드를 넘기면 object먕 필드명을 가지고, 코드 생성(new errorField())
+        ValidationUtils.rejectIfEmptyOrWhitespace(bindingResult, "itemName","required");
+        //== 위 아래는 같은 검증 코드이다.
+       /*
         if(!StringUtils.hasText(item.getItemName())){
             bindingResult.rejectValue("itemName","required");
-        };
+        };*/
         if(item.getPrice()==null ||item.getPrice()<1000 ||item.getPrice()>1000000){
             bindingResult.rejectValue("price","range",new Object[]{1000,1000000},null);
         }
