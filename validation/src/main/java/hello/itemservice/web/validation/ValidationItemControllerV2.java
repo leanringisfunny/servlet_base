@@ -26,7 +26,7 @@ import java.util.Map;
 public class ValidationItemControllerV2 {
 
     private final ItemRepository itemRepository;
-
+    private final ItemValidator itemValidator;
 
     @GetMapping
     public String items(Model model) {
@@ -177,11 +177,18 @@ public class ValidationItemControllerV2 {
         return "redirect:/validation/v2/items/{itemId}";
     }
 
-    @PostMapping("/add")
+//    @PostMapping("/add")
     public String addItemV4(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
 
         log.info("objectName={}",bindingResult.getObjectName());
         log.info("target={}",bindingResult.getTarget());
+        //log.info("bindingResult={}",bindingResult);
+
+        //보통 이 if 문이 앞에서 많이 쓰이긴 한다.
+        if(bindingResult.hasErrors()){
+            log.info("errors={}",bindingResult);
+            return "validation/v2/addForm";
+        }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(bindingResult, "itemName","required");
         //== 위 아래는 같은 검증 코드이다.
@@ -209,6 +216,27 @@ public class ValidationItemControllerV2 {
         }
 
         //검증 입력 실패시 다시 입력 폼으로 이동
+        if(bindingResult.hasErrors()){
+            log.info("errors={}",bindingResult);
+            //bindingResult는 자동으로 뷰로 함꼐 넘어감
+            return "validation/v2/addForm";
+        }
+        //성공 로직
+
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/validation/v2/items/{itemId}";
+    }
+
+    @PostMapping("/add")
+    public String addItemV5(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+
+        //bindingResult에 검증 결과를 모두 담는다.
+        itemValidator.validate(item,bindingResult);
+
+
+        //검증 입력 실패시 다시 입력 폼으로 이동(에러 생기면)
         if(bindingResult.hasErrors()){
             log.info("errors={}",bindingResult);
             //bindingResult는 자동으로 뷰로 함꼐 넘어감
