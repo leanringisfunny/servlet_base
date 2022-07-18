@@ -54,7 +54,7 @@ public class ValidationItemControllerV3 {
     // @Validated 애노테이션(검증기 사용을 위해 무조건 필요)으로 자동으로 bean validation(데이터의 애너테이션)이 수행이 된다.
     public String addItem(@Validated @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
 
-
+        //direction 2
         if(item.getPrice()!=null && item.getQuantity()!=null){
             int totalPrice=item.getPrice()*item.getQuantity();
             if(totalPrice<10000){

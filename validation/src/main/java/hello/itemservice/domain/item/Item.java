@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;   //BeanValidation에서 기본으
 import javax.validation.constraints.NotNull;
 
 @Data
+//direction one
 //권징x//@ScriptAssert(lang="javascript" ,script="_this.quantity * _this.price>=10000",message ="총합이 10000원 넘게 입력해주세요")//provided by hibernate  objectError
 public class Item {
 
