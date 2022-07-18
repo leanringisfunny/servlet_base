@@ -87,7 +87,20 @@ public class ValidationItemControllerV3 {
     }
 
     @PostMapping("/{itemId}/edit")
-    public String edit(@PathVariable Long itemId, @ModelAttribute Item item) {
+    public String edit(@PathVariable Long itemId, @ModelAttribute  @Validated Item item, BindingResult bindingResult) {
+
+        if(item.getPrice()!=null && item.getQuantity()!=null){
+            int totalPrice=item.getPrice()*item.getQuantity();
+            if(totalPrice<10000){
+                //글로벌 오류는 필드값이 존재하지 않기 때문에 ObjectError 객체를 생성하여 관리한다.
+                bindingResult.reject("totalPriceMin",new Object[]{10000,totalPrice},null);
+                //item은 modelAttribute에 담기는 이름
+            }
+        }
+        if(bindingResult.hasErrors()){
+            log.info("error={}",bindingResult);
+            return "validation/v3/editForm";
+        }
         itemRepository.update(itemId, item);
         return "redirect:/validation/v3/items/{itemId}";
     }
