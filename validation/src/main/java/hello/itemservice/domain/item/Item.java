@@ -13,16 +13,16 @@ import javax.validation.constraints.NotNull;
 //권징x//@ScriptAssert(lang="javascript" ,script="_this.quantity * _this.price>=10000",message ="총합이 10000원 넘게 입력해주세요")//provided by hibernate  objectError
 public class Item {
 
-    @NotNull//수정 요구사항 추가, 수정시에는 id가 필수적으로 요구된다.->등록시에도 요구 사항이 반영되어 다른 조건을 사용할 수 없다.
+    @NotNull(groups=UpdateCheck.class)//수정 요구사항 추가, 수정시에는 id가 필수적으로 요구된다.->등록시에도 요구 사항이 반영되어 다른 조건을 사용할 수 없다.
     private Long id;
 
-    @NotBlank(message="null x")
+    @NotBlank(message="null x",groups={UpdateCheck.class,SaveCheck.class})
     private String itemName;
-    @NotNull
+    @NotNull(groups={SaveCheck.class,UpdateCheck.class})
     @Range(min=1000,max=1000000)
     private Integer price;
-    @NotNull
-    //@Max(9999)
+    @NotNull(groups={SaveCheck.class,UpdateCheck.class})
+    @Max(value=9999, groups={SaveCheck.class})
     private Integer quantity;
 
     public Item() {
